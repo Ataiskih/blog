@@ -25,7 +25,7 @@ SECRET_KEY = 'dkc(1dk*jcr@zr701%l$n(3katgr6a4mkubz%@r-kgx#0--eps'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

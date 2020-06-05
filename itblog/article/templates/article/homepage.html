@@ -2,11 +2,12 @@
 
 {% block content %}
 
-    <h2>Articles:</h2>
-    <ul>
+    <h2>Статьи:</h2>
+    
     {% for a in articles %}
-        <li>{{ a.title }}</li>
+        <div><h3><strong>{{ a.title }}</strong></h3></div>
+        <div>{{ a.text }}</div>
     {% endfor %}
-    </ul>
+    
 
 {% endblock %}
