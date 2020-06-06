@@ -3,11 +3,20 @@
 {% block content %}
 
     <h2>Статьи:</h2>
-    
-    {% for a in articles %}
-        <div><h3><strong>{{ a.title }}</strong></h3></div>
-        <div>{{ a.text }}</div>
+    <hr>
+    {% for art in articles %}
+        <div><h3>{{ art.title }}</h3></div>
+        <div>{{ art.text }}</div>
+        <br>
+        <i>Автор: {{ art.author }}</i>
+        <hr>
     {% endfor %}
-    
-
+    <hr>
+    <hr>
+    <hr>
+    <ol>
+        {% for article in lst_authour.articles.all %}
+            <li>{{ article.title }} - <i> статьи автора {{ lst_authour }}</i></li>
+        {% endfor %}
+</ol>
 {% endblock %}
