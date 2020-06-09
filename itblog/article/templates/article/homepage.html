@@ -9,6 +9,8 @@
         <div>{{ art.text }}</div>
         <br>
         <i>Автор: {{ art.author }}</i>
+        <br>
+        <b>Прочитано: {{ art.readers.count }}</b>
         <hr>
     {% endfor %}
     <hr>

@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from article.views import homepage
+from article.views import homepage, authors, users
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", homepage)
+    path("", homepage, name="homepage"),        # в кавычках end point, name="" - название для html страницы для base.html
+    path('authors/', authors, name="authors"),
+    path('users/', users, name="users")
 ]
