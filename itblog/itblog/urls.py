@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from article.views import homepage, authors, users
+from article.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", homepage, name="homepage"),        # в кавычках end point, name="" - название для html страницы для base.html
     path('authors/', authors, name="authors"),
-    path('users/', users, name="users")
+    path('users/', users, name="users-list"),
+    path("article/<int:id>/", article, name="article"),
+    path("article/add/", add_article, name="add-article"),
 ]

@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for user in users %}
-        <h3>{{ user }}</h3> 
-    {% endfor %}
+<br>
+<br>
+<h2>Список пользователей:</h2>
+<br>
+<br>
+<table class="table table-dark table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Логин</th>
+            <th>ФИО</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users_all %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.get_full_name }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

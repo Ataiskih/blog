@@ -5,20 +5,13 @@
     <h2>Статьи:</h2>
     <hr>
     {% for art in articles %}
-        <div><h3>{{ art.title }}</h3></div>
-        <div>{{ art.text }}</div>
-        <br>
+        <h3><a href="{% url 'article' art.id %}">{{ art.title }}</a></h3>
         <i>Автор: {{ art.author }}</i>
         <br>
         <b>Прочитано: {{ art.readers.count }}</b>
+        <br>
+        <b>Понравилось: {{ art.likes }}</b>
         <hr>
     {% endfor %}
-    <hr>
-    <hr>
-    <hr>
-    <ol>
-        {% for article in lst_authour.articles.all %}
-            <li>{{ article.title }} - <i> статьи автора {{ lst_authour }}</i></li>
-        {% endfor %}
-</ol>
+
 {% endblock %}

@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Article, Author
 from django.contrib.auth.models import User
+from .forms import ArticleForm
 
 
 def homepage(request):
-    articles = Article.objects.all()
+    articles = Article.objects.filter(active=True)
     lst_authour = Author.objects.get(id=1)
     return render(request, "article/homepage.html",
         {
@@ -21,9 +22,34 @@ def authors(request):
     )
 
 def users(request):
-    users = User.objects.all()
-    return render(request, "article/users.html",
-        {
-            "users":users
-        }
+    context = {}
+    context["users_all"] = User.objects.all()
+    return render(request, "article/users.html", context)
+
+def article(request, id):
+    if request.method == "POST":
+        article = Article.objects.get(id=id)
+        article.active = False
+        article.save()
+        return redirect(homepage)
+
+    article = Article.objects.get(id=id)
+    return render(
+        request,
+        "article/article.html",
+        {"article": article}
     )
+
+def add_article(request):
+    if request.method == "POST":
+        article = Article()
+        article.title = request.POST.get("title")
+        article.text = request.POST.get("text")
+        author_id = request.POST.get("author")
+        author = Author.objects.get(id=author_id)
+        article.author = author
+        article.save()
+        return render(request, "success.html")
+
+    form = ArticleForm()
+    return render(request, "article/add_article.html", {"form": form})

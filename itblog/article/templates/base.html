@@ -25,13 +25,16 @@
             <a class="nav-link" href="{% url 'authors' %}">Авторы</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'users' %}">Пользователи</a>
+            <a class="nav-link" href="{% url 'users-list' %}">Пользователи</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'add-article' %}">Добавить</a>
         </li>
         </ul>
   
     </nav>
-    {% block content %}
-    
-    {% endblock %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>
