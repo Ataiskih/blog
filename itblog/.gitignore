@@ -1,3 +1,6 @@
 ../venv
 db.sqlite3
 *.pyc
+.../itblog/itblog/__pycache__
+../itblog/article/__pycache__
+../itblog/article/migrations/__pycache__

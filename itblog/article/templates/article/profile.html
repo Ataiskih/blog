@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <h3>Ник:  {{ author.name }}</h3>
+    <h3>Колличество публикаций:  {{ author.articles.count }}</h3>
+
+{% endblock %}

@@ -6,7 +6,7 @@
     <hr>
     {% for art in articles %}
         <h3><a href="{% url 'article' art.id %}">{{ art.title }}</a></h3>
-        <i>Автор: {{ art.author }}</i>
+        <a href="{% url 'profile' art.author.pk %}"><i>Автор: {{ art.author }}</i></a>
         <br>
         <b>Прочитано: {{ art.readers.count }}</b>
         <br>

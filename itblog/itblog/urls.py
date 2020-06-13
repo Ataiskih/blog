@@ -21,7 +21,9 @@ from article.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", homepage, name="homepage"),        # в кавычках end point, name="" - название для html страницы для base.html
+    path("profile/<int:pk>/", profile, name="profile"),
     path('authors/', authors, name="authors"),
+    path('author/add/', add_author, name="add-author"),
     path('users/', users, name="users-list"),
     path("article/<int:id>/", article, name="article"),
     path("article/add/", add_article, name="add-article"),
