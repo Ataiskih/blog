@@ -24,15 +24,10 @@ def profile(request, pk):
 
 def add_author(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        user_id = request.POST.get("user")
-        user = User.objects.get(id=user_id)     # запрос в бд чтобы получить user_id
-        author = Author(
-            name=name,
-            user=user
-        )
-        author.save()
-        return render(request, "success.html")
+        form = AuthorForm(request.POST)
+        if form.is_valid():          # проверкав валидности в html  AuthorForm
+            form.save()
+            return render(request, "success.html")
     elif request.method == "GET":
         form = AuthorForm()
         context = {}
@@ -70,14 +65,10 @@ def article(request, id):
 
 def add_article(request):
     if request.method == "POST":
-        article = Article()
-        article.title = request.POST.get("title")
-        article.text = request.POST.get("text")
-        author_id = request.POST.get("author")
-        author = Author.objects.get(id=author_id)       # получение автора с базы
-        article.author = author
-        article.save()
-        return render(request, "success.html")
+        form = ArticleForm(request.POST)
+        if form.is_valid():     # проверкав валидности в html ArticleForm
+            form.save()
+            return render(request, "success.html")
     elif request.method == "GET":
         form = ArticleForm()
         return render(request, "article/add_article.html",
