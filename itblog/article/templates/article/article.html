@@ -14,8 +14,16 @@
     {% endfor %}
     </ul>   
     <hr>
+        <a href="{% url 'edit-article' article.id %}" 
+        class="btn btn-lg btn-warning">
+            Редактировать
+        </a>
+    <br><br>
     <form method="POST">
         {% csrf_token %}
-        <button class="btn btn-lg btn-danger">Удалить</button>  
+        <button 
+            class="btn btn-lg btn-danger">
+                Удалить
+        </button>  
     </form> 
 {% endblock %}

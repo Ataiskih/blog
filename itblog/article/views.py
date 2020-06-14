@@ -10,7 +10,7 @@ def homepage(request):
     return render(request, "article/homepage.html",
         {
             "articles": articles, 
-            "lst_authour":lst_authour
+            "lst_authour": lst_authour
         }
     )
 
@@ -38,7 +38,7 @@ def authors(request):
     authors = Author.objects.all()
     return render(request, "article/authors.html", 
         {
-            "authors":authors
+            "authors": authors
         }
     )
 
@@ -63,6 +63,22 @@ def article(request, id):
             }
         )
 
+def edit_article(request,id):       # редактирование статьи
+    if request.method == "POST":
+        article = Article.objects.get(id=id)    # получение объекта с БД
+        form = ArticleForm(request.POST, instance=article)      # редактирование
+        if form.is_valid():     # проверкав валидности в html ArticleForm
+            form.save()
+            return render(request, "success.html")
+    elif request.method == "GET":
+        article = Article.objects.get(id=id)    # получение объекта с БД
+        form = ArticleForm(instance=article)        # передача объекта
+        return render(request, "article/add_article.html",
+        {
+            "form": form
+        }
+        )
+
 def add_article(request):
     if request.method == "POST":
         form = ArticleForm(request.POST)
@@ -76,4 +92,3 @@ def add_article(request):
                 "form": form
             }
         )
-

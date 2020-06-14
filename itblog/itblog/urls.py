@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from article.views import *
+from django.conf import settings        # импорт меди файлы
+from django.conf.urls.static import static      # импорт меди файлы
 
 
 urlpatterns = [
@@ -26,5 +28,6 @@ urlpatterns = [
     path('author/add/', add_author, name="add-author"),
     path('users/', users, name="users-list"),
     path("article/<int:id>/", article, name="article"),
+    path("article/edit/<int:id>/", edit_article, name="edit-article"),
     path("article/add/", add_article, name="add-article"),
-]
+]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)       # медиа файлы

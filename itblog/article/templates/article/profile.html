@@ -3,6 +3,7 @@
 {% block content %}
     
     <h3>Ник:  {{ author.name }}</h3>
+    <img src="{{ author.photo.url }}" width="7%">
     <h3>Колличество публикаций:  {{ author.articles.count }}</h3>
 
 {% endblock %}

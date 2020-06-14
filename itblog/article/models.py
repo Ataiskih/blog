@@ -4,6 +4,7 @@ from django.contrib.auth.models import User         # добавление по�
 
 class Author(models.Model):
     name = models.CharField(max_length=50)
+    photo = models.ImageField(upload_to="autor_photo", null=True, blank=True    )
     user = models.OneToOneField(
         to = User, on_delete = models.SET_NULL, 
         related_name = "author", null = True, blank = True)

@@ -1,6 +1,7 @@
 ../venv
-../itblog/db.sqlite3
+db.sqlite3
 *.pyc
-../itblog/itblog/__pycache__
-../itblog/article/__pycache__
-../itblog/article/migrations/__pycache__
+itblog/__pycache__
+article/__pycache__
+article/migrations/__pycache__
+media
