@@ -31,9 +31,13 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    article = models.ForeignKey(to = Article, on_delete = models.CASCADE, related_name = "comments")
+    article = models.ForeignKey(
+        to = Article, on_delete = models.CASCADE, related_name = "comments"
+    )
     text = models.TextField()
-    user = models.ForeignKey(to = User, on_delete = models.CASCADE, related_name = "comments")
+    user = models.ForeignKey(
+        to = User, on_delete = models.CASCADE, related_name = "comments"
+    )
 
     def __str__(self):
-        return self.user.username + " - " + self.text 
+        return self.user.username + " - " + self.text

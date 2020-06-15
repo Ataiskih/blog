@@ -26,4 +26,11 @@
                 Удалить
         </button>  
     </form> 
+    <hr>
+    <h3>Все комментарии:</h3>
+    {% for c in article.comments.all %}
+        <p>Комментарии: {{ c.text }}</p>
+        <i>Автор: {{ c.user }}</i>
+        <hr>
+    {% endfor %}
 {% endblock %}

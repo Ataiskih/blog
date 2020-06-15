@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Article, Author
+from .models import Article, Author, Comment
 from django.contrib.auth.models import User
 from .forms import *
 
@@ -59,7 +59,7 @@ def article(request, id):
             request,
             "article/article.html",
             {
-                "article": article
+                "article": article,
             }
         )
 
@@ -79,7 +79,7 @@ def edit_article(request,id):       # редактирование статьи
         }
         )
 
-def add_article(request):
+def add_article(request):       # добавление статьи
     if request.method == "POST":
         form = ArticleForm(request.POST)
         if form.is_valid():     # проверкав валидности в html ArticleForm
@@ -93,7 +93,7 @@ def add_article(request):
             }
         )
 
-def add_comment(request):
+def add_comment(request):       # добавление комментария
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
