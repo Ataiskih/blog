@@ -106,3 +106,19 @@ def add_comment(request):       # добавление комментария
                 "form": form
             }
         )
+
+def edit_comment(request,id):       # редактирование комментариев
+    if request.method == "POST":
+        comment = Comment.objects.get(id=id)    # получение объекта с БД
+        form = CommentForm(request.POST, instance=comment)      # редактирование
+        if form.is_valid():     # проверкав валидности в html ArticleForm
+            form.save()
+            return render(request, "success.html")
+    elif request.method == "GET":
+        comment = Comment.objects.get(id=id)    # получение объекта с БД
+        form = CommentForm(instance=comment)        # передача объекта
+        return render(request, "article/add_article.html",
+        {
+            "form": form
+        }
+        )

@@ -32,7 +32,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     article = models.ForeignKey(
-        to = Article, on_delete = models.CASCADE, related_name = "comments"
+        to = Article, on_delete = models.CASCADE, related_name = "comments"     # related_name = "comments" можно обраиться не посредсственно на стр без views.py
     )
     text = models.TextField()
     user = models.ForeignKey(

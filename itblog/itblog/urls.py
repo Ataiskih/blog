@@ -31,4 +31,5 @@ urlpatterns = [
     path("article/edit/<int:id>/", edit_article, name="edit-article"),
     path("article/add/", add_article, name="add-article"),
     path("comment/add/", add_comment, name="add-commemt"),
+    path("comment/edit/<int:id>/", edit_comment, name="edit-comment"),
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)       # медиа файлы

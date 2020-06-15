@@ -28,9 +28,16 @@
     </form> 
     <hr>
     <h3>Все комментарии:</h3>
-    {% for c in article.comments.all %}
-        <p>Комментарии: {{ c.text }}</p>
-        <i>Автор: {{ c.user }}</i>
+    <b>Всего коммертариев: {{ article.comments.count }}</b>
+    <br> <br>
+    {% for comment in article.comments.all %}
+        <p>Комментарий: {{ comment.text }}</p>
+        <i>Автор: {{ comment.user }}</i>
         <hr>
+            <a href="{% url 'edit-comment' comment.id %}" 
+                class="btn btn-lg btn-warning">
+                    Редактировать
+            </a>
+<hr>
     {% endfor %}
 {% endblock %}
