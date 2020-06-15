@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <h2>Добавление статьи</h2>
+    <h2>{{ message }}</h2>
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}

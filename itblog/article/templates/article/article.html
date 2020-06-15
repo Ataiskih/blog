@@ -16,14 +16,14 @@
     <hr>
         <a href="{% url 'edit-article' article.id %}" 
         class="btn btn-lg btn-warning">
-            Редактировать
+            Редактировать статью
         </a>
     <br><br>
     <form method="POST">
         {% csrf_token %}
         <button 
             class="btn btn-lg btn-danger">
-                Удалить
+                Удалить статью
         </button>  
     </form> 
     <hr>
@@ -33,11 +33,20 @@
     {% for comment in article.comments.all %}
         <p>Комментарий: {{ comment.text }}</p>
         <i>Автор: {{ comment.user }}</i>
-        <hr>
+        <br><br>
             <a href="{% url 'edit-comment' comment.id %}" 
                 class="btn btn-lg btn-warning">
-                    Редактировать
+                    Редактировать комментарий
             </a>
+            <br><br>
+            <form method="POST">
+                {% csrf_token %}
+                <button 
+                    class="btn btn-lg btn-danger">
+                        Удалить комментарий
+                </button>  
 <hr>
     {% endfor %}
+
+    </form> 
 {% endblock %}

@@ -48,7 +48,7 @@ def users(request):
     return render(request, "article/users.html", context)
 
 def article(request, id):
-    if request.method == "POST":        # удалание 
+    if request.method == "POST":        # удалание статьи
         article = Article.objects.get(id=id)        # получение
         article.active = False      # удалание со страницы но не с базы
         article.save()
@@ -63,6 +63,22 @@ def article(request, id):
             }
         )
 
+def add_article(request):       # добавление статьи
+    if request.method == "POST":
+        form = ArticleForm(request.POST)
+        if form.is_valid():     # проверкав валидности в html ArticleForm
+            form.save()
+            return render(request, "success.html")
+    elif request.method == "GET":
+        form = ArticleForm()
+        message = "Добавить статью"
+        return render(request, "article/add_article.html",
+            {
+                "form": form,
+                "message": message
+            }
+        )
+
 def edit_article(request,id):       # редактирование статьи
     if request.method == "POST":
         article = Article.objects.get(id=id)    # получение объекта с БД
@@ -73,23 +89,27 @@ def edit_article(request,id):       # редактирование статьи
     elif request.method == "GET":
         article = Article.objects.get(id=id)    # получение объекта с БД
         form = ArticleForm(instance=article)        # передача объекта
-        return render(request, "article/add_article.html",
-        {
-            "form": form
-        }
-        )
-
-def add_article(request):       # добавление статьи
-    if request.method == "POST":
-        form = ArticleForm(request.POST)
-        if form.is_valid():     # проверкав валидности в html ArticleForm
-            form.save()
-            return render(request, "success.html")
-    elif request.method == "GET":
-        form = ArticleForm()
+        message = "Редактировать статью"
         return render(request, "article/add_article.html",
             {
-                "form": form
+                "form": form,
+                "message": message
+            }
+        )
+
+def comment(request, id):
+    if request.method == "POST":        # удалание комментария
+        comment = Comment.objects.get(id=id)        # получение
+        comment.active = False      # удалание со страницы но не с базы
+        comment.save()
+        return redirect(homepage)
+    elif request.method == "GET":
+        comment = Comment.objects.get(id=id)
+        return render(
+            request,
+            "article/article.html",
+            {
+                "comment": comment,
             }
         )
 
@@ -101,9 +121,11 @@ def add_comment(request):       # добавление комментария
             return render(request, "success.html")
     elif request.method == "GET":
         form = CommentForm()
+        message = "Добавить комментарий"
         return render(request, "article/add_comment.html",
             {
-                "form": form
+                "form": form,
+                "message": message
             }
         )
 
@@ -117,8 +139,10 @@ def edit_comment(request,id):       # редактирование коммен�
     elif request.method == "GET":
         comment = Comment.objects.get(id=id)    # получение объекта с БД
         form = CommentForm(instance=comment)        # передача объекта
-        return render(request, "article/add_article.html",
-        {
-            "form": form
-        }
+        message = "Редактировать комментарий"
+        return render(request, "article/add_comment.html",
+            {
+                "form": form,
+                "message": message
+            }
         )
