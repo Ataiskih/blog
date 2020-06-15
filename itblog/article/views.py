@@ -92,3 +92,17 @@ def add_article(request):
                 "form": form
             }
         )
+
+def add_comment(request):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, "success.html")
+    elif request.method == "GET":
+        form = CommentForm()
+        return render(request, "article/add_comment.html",
+            {
+                "form": form
+            }
+        )
