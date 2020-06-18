@@ -47,17 +47,30 @@ def users(request):
 
 def article(request, id):
     if request.method == "POST":        # удалание статьи
-        article = Article.objects.get(id=id)        # получение
-        article.active = False      # удалание со страницы но не с базы
-        article.save()
-        return redirect(homepage)
+        if "delete_btn" in request.POST:        # привязка удаления к кнопке
+            article = Article.objects.get(id=id)        # получение
+            article.active = False      # удалание со страницы но не с базы
+            article.save()
+            return redirect(homepage)
+        elif "add_comment_btn" in request.POST:        # привязка удаления к кнопке
+            form = CommentForm(request.POST)        # добавление комментария
+            if form.is_valid():
+                user  = request.user
+                article = Article.objects.get(id=id)
+                comment = Comment(
+                    user=user,
+                    article=article,
+                    text=form.cleaned_data["text"]      # получение значений
+                )
+                comment.save()
+                return render(request, "success.html")
+
     elif request.method == "GET":
-        article = Article.objects.get(id=id)
+        context = {} 
+        context["article"] = Article.objects.get(id=id)
+        context["form"] = CommentForm()
         return render(
-            request, "article/article.html",
-            {
-                "article": article,
-            }
+            request, "article/article.html", context
         )
 
 def add_article(request):       # добавление статьи
@@ -88,22 +101,6 @@ def edit_article(request,id):       # редактирование статьи
         form = ArticleForm(instance=article)        # передача объекта
         message = "Редактировать статью"
         return render(request, "article/add_article.html",
-            {
-                "form": form,
-                "message": message
-            }
-        )
-
-def add_comment(request):       # добавление комментария
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, "success.html")
-    elif request.method == "GET":
-        form = CommentForm()
-        message = "Добавить комментарий"
-        return render(request, "article/add_comment.html",
             {
                 "form": form,
                 "message": message
