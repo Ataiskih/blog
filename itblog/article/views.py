@@ -63,13 +63,11 @@ def article(request, id):
                     text=form.cleaned_data["text"]      # получение значений
                 )
                 comment.save()
-                return render(request, "success.html")
 
-    elif request.method == "GET":
-        context = {} 
-        context["article"] = Article.objects.get(id=id)
-        context["form"] = CommentForm()
-        return render(
+    context = {}        # GET- запрос:
+    context["article"] = Article.objects.get(id=id)
+    context["form"] = CommentForm()
+    return render(
             request, "article/article.html", context
         )
 

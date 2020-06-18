@@ -16,14 +16,14 @@
     </ul>   
     <hr>
         <a href="{% url 'edit-article' article.id %}" 
-        class="btn btn-lg btn-warning">
+        class="btn btn-sm btn-warning">
             Редактировать статью
         </a>
     <br><br>
     <form method="POST">
         {% csrf_token %}
         <button name="delete_btn"
-            class="btn btn-lg btn-danger">
+            class="btn btn-sm btn-danger">
                 Удалить статью
         </button>  
     </form> 
@@ -33,25 +33,24 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <button name="add_comment_btn" 
-        class="btn btn-lg btn-info">Добавить</button>
+        class="btn btn-sm btn-info">Добавить</button>
     </form>
     <hr>
-    <h3>Все комментарии:</h3>
-    <b>Всего коммертариев: {{ article.comments.count }}</b>
-    <br> <br>
+    <h3>Все комментарии: ({{ article.comments.count }})</h3>
+    <hr>
     {% for comment in article.comments.all %}
-        <p>Комментарий: {{ comment.text }}</p>
+        <p> <b> Комментарий:</b> {{ comment.text }}</p>
         <i>Автор: {{ comment.user }}</i>
         <br><br>
             <a href="{% url 'edit-comment' comment.id %}" 
-                class="btn btn-lg btn-warning">
+                class="btn btn-sm btn-warning">
                     Редактировать комментарий
             </a>
             <br><br>
             <form action="{% url 'delete-comment' comment.id %}" method="POST">
                 {% csrf_token %}
                 <button 
-                    class="btn btn-lg btn-danger">
+                    class="btn btn-sm btn-danger">
                         Удалить комментарий
                 </button>  
 <hr>
