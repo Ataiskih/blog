@@ -39,7 +39,7 @@
                     Редактировать комментарий
             </a>
             <br><br>
-            <form method="POST">
+            <form action="{% url 'delete-comment' comment.id %}" method="POST">
                 {% csrf_token %}
                 <button 
                     class="btn btn-lg btn-danger">

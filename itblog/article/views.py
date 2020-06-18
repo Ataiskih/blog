@@ -6,11 +6,9 @@ from .forms import *
 
 def homepage(request):
     articles = Article.objects.filter(active=True)      # фильтрация запросов
-    lst_authour = Author.objects.get(id=1)
     return render(request, "article/homepage.html",
         {
-            "articles": articles, 
-            "lst_authour": lst_authour
+            "articles": articles
         }
     )
 
@@ -56,8 +54,7 @@ def article(request, id):
     elif request.method == "GET":
         article = Article.objects.get(id=id)
         return render(
-            request,
-            "article/article.html",
+            request, "article/article.html",
             {
                 "article": article,
             }
@@ -97,22 +94,6 @@ def edit_article(request,id):       # редактирование статьи
             }
         )
 
-def comment(request, id):
-    if request.method == "POST":        # удалание комментария
-        comment = Comment.objects.get(id=id)        # получение
-        comment.active = False      # удалание со страницы но не с базы
-        comment.save()
-        return redirect(homepage)
-    elif request.method == "GET":
-        comment = Comment.objects.get(id=id)
-        return render(
-            request,
-            "article/article.html",
-            {
-                "comment": comment,
-            }
-        )
-
 def add_comment(request):       # добавление комментария
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -146,3 +127,7 @@ def edit_comment(request,id):       # редактирование коммен�
                 "message": message
             }
         )
+
+def delete_comment(request, id):
+    Comment.objects.get(id=id).delete()
+    return render(request, "success.html")
