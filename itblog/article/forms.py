@@ -3,9 +3,9 @@ from .models import *
 
 
 class ArticleForm(forms.ModelForm):
-    class Meta:
+    class Meta:     # meta связь с БД валидация
         model = Article
-        fields = ['title', 'text', 'author']
+        fields = ['title', 'text', 'picture', 'tags']
 
 
 class AuthorForm(forms.ModelForm):

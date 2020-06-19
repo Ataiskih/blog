@@ -5,7 +5,7 @@ from .forms import *
 
 
 def homepage(request):
-    articles = Article.objects.filter(active=True)      # фильтрация запросов
+    articles = Article.objects.filter(active=True).order_by("title")      # фильтрация запросов и сортировка
     return render(request, "article/homepage.html",
         {
             "articles": articles
@@ -46,9 +46,11 @@ def users(request):
     return render(request, "article/users.html", context)
 
 def article(request, id):
+    article = Article.objects.get(id=id)     # получение
+    article.views += 1
+    article.save()  
     if request.method == "POST":        # удалание статьи
-        if "delete_btn" in request.POST:        # привязка удаления к кнопке
-            article = Article.objects.get(id=id)        # получение
+        if "delete_btn" in request.POST:        # привязка удаления к кнопке  
             article.active = False      # удалание со страницы но не с базы
             article.save()
             return redirect(homepage)
@@ -56,7 +58,6 @@ def article(request, id):
             form = CommentForm(request.POST)        # добавление комментария
             if form.is_valid():
                 user  = request.user
-                article = Article.objects.get(id=id)
                 comment = Comment(
                     user=user,
                     article=article,

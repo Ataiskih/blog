@@ -6,9 +6,17 @@
     <div>{{ article.text }}</div>
     <i>Автор: {{ article.author }}</i>
     <br>
-    <b> Понравилось: {{ article.likes }}
+    <b> 
+        Понравилось: {{ article.likes }}
         <br>
-    Прочитало: {{ article.readers.count }}</b>
+        Прочитало: {{ article.readers.count }}
+        <br>
+        Просмотров: {{ article.views }}
+        <br>
+        Дата публикации: {{ article.publication_date }}
+        <br>
+        Последнее изменение: {{ article.update_date }}
+    </b>
     <ul>
     {% for reader in article.readers.all %}
         <li>{{ reader }}</li>

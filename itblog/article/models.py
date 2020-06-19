@@ -1,16 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User         # добавление пользователей
+from datetime import datetime
 
 
 class Author(models.Model):
     name = models.CharField(max_length=50)
-    photo = models.ImageField(upload_to="autor_photo", null=True, blank=True    )
+    photo = models.ImageField(upload_to="autor_photo", null=True, blank=True)
     user = models.OneToOneField(
         to = User, on_delete = models.SET_NULL, 
         related_name = "author", null = True, blank = True)
 
     def __str__(self):
         return self.name
+    
+
+    class Meta:
+        verbose_name = "автор"
+        verbose_name_plural = "Авторы"
+        ordering = ["user"]
 
 
 class Article(models.Model):
@@ -26,8 +33,25 @@ class Article(models.Model):
         to=User, related_name="articles",
         blank=True
     )
+    publication_date = models.DateTimeField(auto_now_add=True)      # автотатич дату публикации
+    update_date = models.DateTimeField(auto_now=True)       # обновляет дату публикации
+    picture = models.ImageField(
+        null=True, blank=True, 
+        upload_to="articles/" + datetime.today().strftime("%Y%m%d")
+    )
+    dislikes = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
+    reposts = models.IntegerField(default=0)
+    tags = models.ManyToManyField("Tag" ,blank=True, related_name="article")
+
     def __str__(self):
         return self.title
+
+
+    class Meta:
+        verbose_name = "статья"
+        verbose_name_plural = "Статьи"
+        ordering = ["author"]
 
 
 class Comment(models.Model):
@@ -41,3 +65,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username + " - " + self.text
+
+
+    class Meta:
+        verbose_name = "комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["-user"]
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = "тэг"
+        verbose_name_plural = "тэги"   
