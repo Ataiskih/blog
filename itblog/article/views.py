@@ -48,6 +48,8 @@ def users(request):
 def article(request, id):
     article = Article.objects.get(id=id)     # получение
     article.views += 1
+    user = request.user     # получение пользователя
+    article.readers.add(user)       # добавление пользователя в читатели
     article.save()  
     if request.method == "POST":        # удалание статьи
         if "delete_btn" in request.POST:        # привязка удаления к кнопке  
