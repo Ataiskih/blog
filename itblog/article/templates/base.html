@@ -16,7 +16,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a class="nav-link" href="/">Статьи</a>
             </li>
@@ -40,6 +40,11 @@
                 </div>
             </li>
           </ul>
+            <form class="form-inline" action="{% url 'homepage' %}" method="POST">
+                {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name = "key_word" placeholder="Поиск">
+            <button class="btn btn-primary" type="submit">Поиск</button>
+          </form>
     </nav>
     <br>
     <div class="container">
