@@ -49,7 +49,8 @@ def article(request, id):
     article = Article.objects.get(id=id)     # получение
     article.views += 1
     user = request.user     # получение пользователя
-    article.readers.add(user)       # добавление пользователя в читатели
+    if not user.is_anonymous:       # если не анонимный
+        article.readers.add(user)       # добавление пользователя в читатели
     article.save()  
     if request.method == "POST":        # удалание статьи
         if "delete_btn" in request.POST:        # привязка удаления к кнопке  
@@ -76,7 +77,7 @@ def article(request, id):
 
 def add_article(request):       # добавление статьи
     if request.method == "POST":
-        form = ArticleForm(request.POST)
+        form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():     # проверкав валидности в html ArticleForm
             form.save()
             return render(request, "success.html")
@@ -93,7 +94,7 @@ def add_article(request):       # добавление статьи
 def edit_article(request,id):       # редактирование статьи
     if request.method == "POST":
         article = Article.objects.get(id=id)    # получение объекта с БД
-        form = ArticleForm(request.POST, instance=article)      # редактирование
+        form = ArticleForm(request.POST, request.FILES, instance=article)      # редактирование + добаление файла
         if form.is_valid():     # проверкав валидности в html ArticleForm
             form.save()
             return render(request, "success.html")

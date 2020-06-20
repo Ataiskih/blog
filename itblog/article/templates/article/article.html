@@ -3,8 +3,14 @@
 
 {% block content %}
     <h2>{{ article.title }}</h2>
+    <br>
+    {% if article.picture %}
+        <img width="40%" src="{{ article.picture.url }}">
+    {% endif %}
+    <br><br>
     <div>{{ article.text }}</div>
     <i>Автор: {{ article.author }}</i>
+    <hr>
     <br>
     <b> 
         Понравилось: {{ article.likes }}
@@ -17,6 +23,8 @@
         <br>
         Последнее изменение: {{ article.update_date }}
     </b>
+    <br>
+    <b> Прочитали:</b>
     <ul>
     {% for reader in article.readers.all %}
         <li>{{ reader }}</li>
