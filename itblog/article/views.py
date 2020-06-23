@@ -10,9 +10,10 @@ def homepage(request):
         articles = Article.objects.filter(active=True).filter(
             title__contains=key) | Article.objects.filter(active=True).filter(
                 text__contains=key) | Article.objects.filter(active=True).filter(
-                    tags__name__contains=key) | Article.objects.filter(
-                    readers__username__contains=key) | Article.objects.filter(
-                    picture__contains=key)
+                    tags__name__contains=key) | Article.objects.filter(active=True).filter(
+                    readers__username__contains=key) | Article.objects.filter(active=True).filter(
+                    picture__contains=key) | Article.objects.filter(active=True).filter(
+                    comments__text__contains=key)
     else:       #GET
         articles = Article.objects.filter(active=True).order_by("title")      # фильтрация запросов и сортировка
     return render(request, "article/homepage.html",
