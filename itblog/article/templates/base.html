@@ -40,7 +40,7 @@
                 </div>
             </li>
           </ul>
-            <form class="form-inline" action="{% url 'homepage' %}" method="POST">
+            <form class="form-inline" action="{% url 'homepage' %}">
                 {% csrf_token %}
             <input class="form-control mr-sm-2" type="text" name = "key_word" placeholder="Поиск">
             <button class="btn btn-primary" type="submit">Поиск</button>

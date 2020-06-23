@@ -7,6 +7,13 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
+        <div class="form-group">
+            <input 
+                class="form-control" 
+                type="text" 
+                name="tagss" 
+                placeholder="Укажите теги через запятую">
+        </div>
         <button class="btn btn-lg btn-info">Добавить</button>
     </form>
 <br>

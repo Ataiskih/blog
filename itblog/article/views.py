@@ -5,17 +5,29 @@ from .forms import *
 
 
 def homepage(request):
-    if request.method == "POST":        # поиск
+    if request.method == "POST":        # поиск POST запросом
         key = request.POST.get("key_word")
         articles = Article.objects.filter(active=True).filter(
             title__contains=key) | Article.objects.filter(active=True).filter(
                 text__contains=key) | Article.objects.filter(active=True).filter(
                     tags__name__contains=key) | Article.objects.filter(active=True).filter(
-                    readers__username__contains=key) | Article.objects.filter(active=True).filter(
-                    picture__contains=key) | Article.objects.filter(active=True).filter(
-                    comments__text__contains=key)
+                        readers__username__contains=key) | Article.objects.filter(active=True).filter(
+                            picture__contains=key) | Article.objects.filter(active=True).filter(
+                                comments__text__contains=key)
+        articles = articles.distinct()
     else:       #GET
-        articles = Article.objects.filter(active=True).order_by("title")      # фильтрация запросов и сортировка
+        if "key_word" in request.GET:       # поиск GET запросом
+            key = request.GET.get("key_word")   # получение значение по ключу GET запросом
+            articles = Article.objects.filter(active=True).filter(
+                title__contains=key) | Article.objects.filter(active=True).filter(
+                    text__contains=key) | Article.objects.filter(active=True).filter(
+                        tags__name__contains=key) | Article.objects.filter(active=True).filter(
+                            readers__username__contains=key) | Article.objects.filter(active=True).filter(
+                                picture__contains=key) | Article.objects.filter(active=True).filter(
+                                    comments__text__contains=key)       
+            articles = articles.distinct()
+        else:
+            articles = Article.objects.filter(active=True)     # фильтрация запросов и сортировка
     return render(request, "article/homepage.html",
         {
             "articles": articles
@@ -89,7 +101,28 @@ def add_article(request):       # добавление статьи
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():     # проверкав валидности в html ArticleForm
-            form.save()
+            article = Article()
+            # Запрашиваемый пользователь становится автором
+            if not Author.objects.filter(user=request.user):        # если запрашевыемый поль-ль нет в списке то добавляем его в список авторов -без добавление авторов в ручную
+                author = Author(
+                    user = request.user,
+                    name = request.user.username
+                )
+                author.save()
+            else:
+                author = Author.objects.get(user=request.user)
+            # Добавление статьи 
+            article.author = author
+            article.title = form.cleaned_data["title"]
+            article.text = form.cleaned_data["text"]
+            article.picture = form.cleaned_data["picture"]
+            article.save()
+            # настройка тегов
+            tagss = form.cleaned_data["tagss"]
+            for tag in tagss.split(","):
+                obj, created = Tag.objects.get_or_create(name=tag)
+                article.tag.add(obj)
+            article.save()
             return render(request, "success.html")
     elif request.method == "GET":
         form = ArticleForm()
