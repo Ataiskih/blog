@@ -2,7 +2,6 @@
 {% load bootstrap4 %}
 
 {% block content %}
-{% include "includes/message.html" %}
     <h2>{{ article.title }}</h2>
     {% for tag in article.tag.all %}
         <button>{{ tag.name }}</button>

@@ -74,7 +74,7 @@ def article(request, id):
                 comment = Comment(
                     user=user,
                     article=article,
-                    text=form.cleaned_data["text"]      # получение значений
+                    text=form.cleaned_data["text"]      # получение значений c html
                 )
                 comment.save()
 
@@ -101,9 +101,9 @@ def add_article(request):       # добавление статьи
                 author = Author.objects.get(user=request.user)
             # Добавление статьи 
             article.author = author
-            article.title = form.cleaned_data["title"]
-            article.text = form.cleaned_data["text"]
-            article.picture = form.cleaned_data["picture"]
+            article.title = form.cleaned_data["title"]      # получение значений c html
+            article.text = form.cleaned_data["text"]      # получение значений c html
+            article.picture = form.cleaned_data["picture"]      # получение значений c html
             article.save()
             # настройка тегов
             tags = form.cleaned_data["tags"]
@@ -128,9 +128,9 @@ def edit_article(request,id):       # редактирование статьи
         form = ArticleForm(request.POST, request.FILES, instance=article)      # редактирование + добаление файла
         if form.is_valid():     # проверкав валидности в html ArticleForm
             # Добавление статьи 
-            article.title = form.cleaned_data["title"]
-            article.text = form.cleaned_data["text"]
-            article.picture = form.cleaned_data["picture"]
+            article.title = form.cleaned_data["title"]      # получение значений c html
+            article.text = form.cleaned_data["text"]      # получение значений c html
+            article.picture = form.cleaned_data["picture"]      # получение значений c html
             article.save()
             # настройка тегов
             tags = form.cleaned_data["tags"]
