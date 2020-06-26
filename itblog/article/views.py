@@ -35,7 +35,12 @@ def add_author(request):
         form = AuthorForm(request.POST)
         if form.is_valid():          # проверкав валидности в html  AuthorForm
             form.save()
-            return render(request, "success.html")
+            message = "Автор был добавлен успешно!"
+            return render(request, "success.html",
+                {
+                    "message": message
+                }
+            )
     elif request.method == "GET":
         form = AuthorForm()
         context = {}
@@ -111,7 +116,12 @@ def add_article(request):       # добавление статьи
                 obj, created = Tag.objects.get_or_create(name=tag)
                 article.tag.add(obj)
             article.save()
-            return render(request, "success.html")
+            message = "Статья была добавлена успешно!"
+            return render(request, "success.html",
+                {
+                    "message": message
+                }
+            )
     elif request.method == "GET":
         form = ArticleForm()
         message = "Добавить статью"
@@ -138,7 +148,15 @@ def edit_article(request,id):       # редактирование статьи
                 obj, created = Tag.objects.get_or_create(name=tag)
                 article.tag.add(obj)
             article.save()
-            return render(request, "success.html")
+            context = {}        # GET- запрос:
+            context["article"] = article
+            context["form"] = CommentForm()
+            context["message"] = "Статья была изменена успешно!"
+            return render(
+                request,
+                "article/article.html",
+                context
+            )
     elif request.method == "GET":
         article = Article.objects.get(id=id)    # получение объекта с БД
         form = ArticleForm(instance=article)        # передача объекта
@@ -170,4 +188,9 @@ def edit_comment(request,id):       # редактирование коммен�
 
 def delete_comment(request, id):
     Comment.objects.get(id=id).delete()
-    return render(request, "success.html")
+    message = "Вы удалили статью!"
+    return render(request, "success.html",
+        {
+            "message": message
+        }
+    )
