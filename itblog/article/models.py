@@ -42,7 +42,7 @@ class Article(models.Model):
     dislikes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     reposts = models.IntegerField(default=0)
-    tags = models.ManyToManyField("Tag" ,blank=True, related_name="article")
+    tag = models.ManyToManyField("Tag" ,blank=True, related_name="article")
 
     def __str__(self):
         return self.title

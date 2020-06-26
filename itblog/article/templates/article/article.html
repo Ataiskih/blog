@@ -2,8 +2,12 @@
 {% load bootstrap4 %}
 
 {% block content %}
+{% include "includes/message.html" %}
     <h2>{{ article.title }}</h2>
-    <br>
+    {% for tag in article.tag.all %}
+        <button>{{ tag.name }}</button>
+    {% endfor %}
+    <br><br>
     {% if article.picture %}
         <img width="40%" src="{{ article.picture.url }}">
     {% endif %}

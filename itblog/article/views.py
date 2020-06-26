@@ -2,32 +2,20 @@ from django.shortcuts import render, redirect
 from .models import Article, Author, Comment
 from django.contrib.auth.models import User
 from .forms import *
+from django.db.models import Q
 
 
 def homepage(request):
-    if request.method == "POST":        # поиск POST запросом
-        key = request.POST.get("key_word")
-        articles = Article.objects.filter(active=True).filter(
-            title__contains=key) | Article.objects.filter(active=True).filter(
-                text__contains=key) | Article.objects.filter(active=True).filter(
-                    tags__name__contains=key) | Article.objects.filter(active=True).filter(
-                        readers__username__contains=key) | Article.objects.filter(active=True).filter(
-                            picture__contains=key) | Article.objects.filter(active=True).filter(
-                                comments__text__contains=key)
+    if "key_word" in request.GET:       # поиск GET запросом
+        key = request.GET.get("key_word")   # получение значение по ключу GET запросом
+        articles = Article.objects.filter(Q(active=True),
+            Q(title__contains=key) | Q(text__contains=key) | Q(tag__name__contains=key)|
+                Q(readers__username__contains=key) | Q(picture__contains=key) | 
+                    Q(comments__text__contains=key)
+        )      
         articles = articles.distinct()
-    else:       #GET
-        if "key_word" in request.GET:       # поиск GET запросом
-            key = request.GET.get("key_word")   # получение значение по ключу GET запросом
-            articles = Article.objects.filter(active=True).filter(
-                title__contains=key) | Article.objects.filter(active=True).filter(
-                    text__contains=key) | Article.objects.filter(active=True).filter(
-                        tags__name__contains=key) | Article.objects.filter(active=True).filter(
-                            readers__username__contains=key) | Article.objects.filter(active=True).filter(
-                                picture__contains=key) | Article.objects.filter(active=True).filter(
-                                    comments__text__contains=key)       
-            articles = articles.distinct()
-        else:
-            articles = Article.objects.filter(active=True)     # фильтрация запросов и сортировка
+    else:
+        articles = Article.objects.filter(active=True)     # фильтрация запросов и сортировка
     return render(request, "article/homepage.html",
         {
             "articles": articles
@@ -118,8 +106,8 @@ def add_article(request):       # добавление статьи
             article.picture = form.cleaned_data["picture"]
             article.save()
             # настройка тегов
-            tagss = form.cleaned_data["tagss"]
-            for tag in tagss.split(","):
+            tags = form.cleaned_data["tags"]
+            for tag in tags.split(","):
                 obj, created = Tag.objects.get_or_create(name=tag)
                 article.tag.add(obj)
             article.save()
@@ -139,7 +127,17 @@ def edit_article(request,id):       # редактирование статьи
         article = Article.objects.get(id=id)    # получение объекта с БД
         form = ArticleForm(request.POST, request.FILES, instance=article)      # редактирование + добаление файла
         if form.is_valid():     # проверкав валидности в html ArticleForm
-            form.save()
+            # Добавление статьи 
+            article.title = form.cleaned_data["title"]
+            article.text = form.cleaned_data["text"]
+            article.picture = form.cleaned_data["picture"]
+            article.save()
+            # настройка тегов
+            tags = form.cleaned_data["tags"]
+            for tag in tags.split(","):
+                obj, created = Tag.objects.get_or_create(name=tag)
+                article.tag.add(obj)
+            article.save()
             return render(request, "success.html")
     elif request.method == "GET":
         article = Article.objects.get(id=id)    # получение объекта с БД

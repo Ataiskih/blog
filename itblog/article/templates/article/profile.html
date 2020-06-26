@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
+    {% include "includes/message.html" %}
     <h3>Ник:  {{ author.name }}</h3>
     {% if authour.photo %}
         <img src="{{ author.photo.url }}" width="7%">

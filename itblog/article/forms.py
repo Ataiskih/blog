@@ -3,10 +3,10 @@ from .models import *
 
 
 class ArticleForm(forms.ModelForm):
+    tags = forms.CharField(max_length=255, required=False)
     class Meta:     # meta связь с БД валидация
-        tagss = forms.CharField(max_length=255)
         model = Article
-        fields = ['title', 'text', 'picture', 'tags', 'tagss']
+        fields = ['title', 'text', 'picture', 'tag','tags']
 
 
 class AuthorForm(forms.ModelForm):
