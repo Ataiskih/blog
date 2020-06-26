@@ -4,15 +4,17 @@
 {% block content %}
 {% include 'includes/success.html' %}
     <h2>{{ article.title }}</h2>
-    {% for tag in article.tag.all %}
-        <button>{{ tag.name }}</button>
-    {% endfor %}
+    {% if article.tag.all|length >= 1 %}
+        {% for tag in article.tag.all %}
+            <button>{{ tag.name }}</button>
+        {% endfor %}
+    {% endif %}
     <br><br>
     {% if article.picture %}
         <img width="40%" src="{{ article.picture.url }}">
     {% endif %}
     <br><br>
-    <div>{{ article.text }}</div>
+    <div>{{ article.text|linebreaks|escape }}</div>
     <i>Автор: {{ article.author }}</i>
     <hr>
     <br>
@@ -23,9 +25,9 @@
         <br>
         Просмотров: {{ article.views }}
         <br>
-        Дата публикации: {{ article.publication_date }}
+        Дата публикации: {{ article.publication_date|date:"d.m.Y H:i" }}
         <br>
-        Последнее изменение: {{ article.update_date }}
+        Последнее изменение: {{ article.update_date|date:"d.m.Y H:i" }}
     </b>
     <br>
     <b> Прочитали:</b>
