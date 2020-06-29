@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Article, Author, Comment
 from django.contrib.auth.models import User
 from .forms import *
-from django.db.models import Q
+from django.db.models import Q      # фильтрация
 
 
 def homepage(request):
@@ -11,7 +11,7 @@ def homepage(request):
         articles = Article.objects.filter(Q(active=True),
             Q(title__contains=key) | Q(text__contains=key) | Q(tag__name__contains=key)|
                 Q(readers__username__contains=key) | Q(picture__contains=key) | 
-                    Q(comments__text__contains=key)
+                    Q(comments__text__contains=key) # , - и | - или
         )      
         articles = articles.distinct()
     else:

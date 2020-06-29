@@ -18,6 +18,7 @@ from django.urls import path
 from article.views import *
 from django.conf import settings        # импорт меди файлы
 from django.conf.urls.static import static      # импорт меди файлы
+from django.conf.urls import include
 
 
 urlpatterns = [
@@ -32,4 +33,5 @@ urlpatterns = [
     path("article/edit/<int:id>/", edit_article, name="edit-article"),
     path("comment/edit/<int:id>/", edit_comment, name="edit-comment"),
     path("comment/delete/<int:id>/", delete_comment, name="delete-comment"),
+    path('accounts/', include('allauth.urls')),
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)       # медиа файлы
