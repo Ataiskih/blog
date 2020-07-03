@@ -188,7 +188,7 @@ def edit_comment(request,id):       # редактирование коммен�
 
 def delete_comment(request, id):
     Comment.objects.get(id=id).delete()
-    message = "Вы удалили статью!"
+    message = "Вы удалили комментарий!"
     return render(request, "success.html",
         {
             "message": message
