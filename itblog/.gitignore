@@ -1,5 +1,6 @@
 ../venv
 db.sqlite3
+/*.sqlite3
 *.pyc
 itblog/__pycache__
 article/__pycache__
