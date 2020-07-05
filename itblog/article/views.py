@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Article, Author, Comment
+from .models import Article, Author, Comment, Tag
 from django.contrib.auth.models import User
 from .forms import ArticleForm, AuthorForm, CommentForm
 from django.db.models import Q      # фильтрация
