@@ -13,17 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+
 from django.urls import path
 from article.views import *
 from django.conf import settings        # импорт меди файлы
 from django.conf.urls.static import static      # импорт меди файлы
-from django.conf.urls import include
+from django.conf.urls import include, url
+from django.contrib import admin
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", homepage, name="homepage"),        # в кавычках end point, name="" - название для html страницы для base.html
+    # в кавычках end point, name="" - название для html
+    # страницы для base.html:
+    path("", homepage, name="homepage"),
     path("profile/<int:pk>/", profile, name="profile"),
     path('authors/', authors, name="authors"),
     path('author/add/', add_author, name="add-author"),
@@ -33,5 +36,7 @@ urlpatterns = [
     path("article/edit/<int:id>/", edit_article, name="edit-article"),
     path("comment/edit/<int:id>/", edit_comment, name="edit-comment"),
     path("comment/delete/<int:id>/", delete_comment, name="delete-comment"),
-    path('accounts/', include('allauth.urls')),
-]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)       # медиа файлы
+    path('', include('allauth.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# медиа файлы

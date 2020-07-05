@@ -7,12 +7,11 @@ class Author(models.Model):
     name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to="autor_photo", null=True, blank=True)
     user = models.OneToOneField(
-        to = User, on_delete = models.SET_NULL, 
-        related_name = "author", null = True, blank = True)
+        to=User, on_delete=models.SET_NULL,
+        related_name="author", null=True, blank=True)
 
     def __str__(self):
         return self.name
-    
 
     class Meta:
         verbose_name = "автор"
@@ -26,27 +25,28 @@ class Article(models.Model):
     likes = models.IntegerField(default=0)
     active = models.BooleanField(default=True)
     author = models.ForeignKey(
-        to = Author, on_delete=models.CASCADE,
-        related_name = "articles", null=True, blank=True
+        to=Author, on_delete=models.CASCADE,
+        related_name="articles", null=True, blank=True
     )
     readers = models.ManyToManyField(
         to=User, related_name="articles",
         blank=True
     )
-    publication_date = models.DateTimeField(auto_now_add=True)      # автотатич дату публикации
-    update_date = models.DateTimeField(auto_now=True)       # обновляет дату публикации
+    # автотатич дату публикации:
+    publication_date = models.DateTimeField(auto_now_add=True)
+    # обновляет дату публикации:
+    update_date = models.DateTimeField(auto_now=True)
     picture = models.ImageField(
-        null=True, blank=True, 
+        null=True, blank=True,
         upload_to="articles/" + datetime.today().strftime("%Y%m%d")
     )
     dislikes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     reposts = models.IntegerField(default=0)
-    tag = models.ManyToManyField("Tag" ,blank=True, related_name="article")
+    tag = models.ManyToManyField("Tag", blank=True, related_name="article")
 
     def __str__(self):
         return self.title
-
 
     class Meta:
         verbose_name = "статья"
@@ -56,16 +56,17 @@ class Article(models.Model):
 
 class Comment(models.Model):
     article = models.ForeignKey(
-        to = Article, on_delete = models.CASCADE, related_name = "comments"     # related_name = "comments" можно обраиться не посредсственно на стр без views.py
+        # related_name = "comments" можно обраиться не посредсственно на стр
+        # без views.py
+        to=Article, on_delete=models.CASCADE, related_name="comments"
     )
     text = models.TextField()
     user = models.ForeignKey(
-        to = User, on_delete = models.CASCADE, related_name = "comments"
+        to=User, on_delete=models.CASCADE, related_name="comments"
     )
 
     def __str__(self):
         return self.user.username + " - " + self.text
-
 
     class Meta:
         verbose_name = "комментарий"
@@ -78,7 +79,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     class Meta:
         verbose_name = "тэг"
-        verbose_name_plural = "тэги"   
+        verbose_name_plural = "тэги"
