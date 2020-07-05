@@ -6,7 +6,7 @@ class ArticleForm(forms.ModelForm):
     tags = forms.CharField(max_length=255, required=False)      # кастомное добавления столбца в артикл
     class Meta:     # meta связь с БД валидация
         model = Article
-        fields = ['title', 'text', 'picture', 'tag','tags']
+        fields = ['title', 'text', 'picture','tags']
 
 
 class AuthorForm(forms.ModelForm):

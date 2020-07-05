@@ -10,9 +10,9 @@ def homepage(request):
         key = request.GET.get("key_word")   # получение значение по ключу GET запросом
         articles = Article.objects.filter(Q(active=True),
             Q(title__contains=key) | Q(text__contains=key) | Q(tag__name__contains=key)|
-                Q(readers__username__contains=key) | Q(picture__contains=key) | 
+                Q(readers__username__contains=key) | Q(picture__contains=key) |
                     Q(comments__text__contains=key) # , - и | - или
-        )      
+        )
         articles = articles.distinct()
     else:
         articles = Article.objects.filter(active=True)     # фильтрация запросов и сортировка
@@ -24,7 +24,7 @@ def homepage(request):
 
 def profile(request, pk):
     author = Author.objects.get(id=pk)
-    return render(request, "article/profile.html", 
+    return render(request, "article/profile.html",
         {
             "author": author
         }
@@ -49,7 +49,7 @@ def add_author(request):
 
 def authors(request):
     authors = Author.objects.all()
-    return render(request, "article/authors.html", 
+    return render(request, "article/authors.html",
         {
             "authors": authors
         }
@@ -66,9 +66,9 @@ def article(request, id):
     user = request.user     # получение пользователя
     if not user.is_anonymous:       # если не анонимный
         article.readers.add(user)       # добавление пользователя в читатели
-    article.save()  
+    article.save()
     if request.method == "POST":        # удалание статьи
-        if "delete_btn" in request.POST:        # привязка удаления к кнопке  
+        if "delete_btn" in request.POST:        # привязка удаления к кнопке
             article.active = False      # удалание со страницы но не с базы
             article.save()
             return redirect(homepage)
@@ -104,7 +104,7 @@ def add_article(request):       # добавление статьи
                 author.save()
             else:
                 author = Author.objects.get(user=request.user)
-            # Добавление статьи 
+            # Добавление статьи
             article.author = author
             article.title = form.cleaned_data["title"]      # получение значений c html
             article.text = form.cleaned_data["text"]      # получение значений c html
@@ -137,7 +137,7 @@ def edit_article(request,id):       # редактирование статьи
         article = Article.objects.get(id=id)    # получение объекта с БД
         form = ArticleForm(request.POST, request.FILES, instance=article)      # редактирование + добаление файла
         if form.is_valid():     # проверкав валидности в html ArticleForm
-            # Добавление статьи 
+            # Добавление статьи
             article.title = form.cleaned_data["title"]      # получение значений c html
             article.text = form.cleaned_data["text"]      # получение значений c html
             article.picture = form.cleaned_data["picture"]      # получение значений c html
